@@ -1,30 +1,26 @@
 ﻿using NUnit.Framework;
-using OpenQA.Selenium;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TechnicalTestSHE.PageObjects;
 using TechnicalTestSHE.TestManagement;
 
 namespace TechnicalTestSHE.Tests
 {
+
     [TestFixture]
     public class AirEmissionsTests : TestBaseClass
     {
-        private LoginPage _loginPage;
-        private HomePage _homePage;
-        private AirEmissionsEnvironmentPage _airEmissionsEnvironmentPage;
-        private AirEmissionsFormPage _airEmissionsFormPage;
+        private LoginPage loginPage;
+        private HomePage homePage;
+        private AirEmissionsEnvironmentPage airEmissionsEnvironmentPage;
+        private AirEmissionsFormPage airEmissionsFormPage;
 
         [SetUp]
-        public void Before()
+        public void Setup()
         {
-            _loginPage = new LoginPage(Driver);
-            _homePage = new HomePage(Driver);
-            _airEmissionsEnvironmentPage = new AirEmissionsEnvironmentPage(Driver);
-            _airEmissionsFormPage = new AirEmissionsFormPage(Driver);
+            loginPage = new LoginPage(Driver);
+            homePage = new HomePage(Driver);
+            airEmissionsEnvironmentPage = new AirEmissionsEnvironmentPage(Driver);
+            airEmissionsFormPage = new AirEmissionsFormPage(Driver);
         }
 
         [Test]
@@ -32,21 +28,40 @@ namespace TechnicalTestSHE.Tests
         {
             string record1DescriptionText = Guid.NewGuid().ToString();
             string record2DescriptionText = Guid.NewGuid().ToString();
-            _loginPage.Login("LukeJ", "f8*GTZ");
-            _homePage.SelectEnvironmentModule("Air Emissions");
-            _airEmissionsEnvironmentPage.SelectNewRecordButton();
-            _airEmissionsFormPage.SetDescriptionText(record1DescriptionText);
-            _airEmissionsFormPage.SetSampleDate("Aug", 3);
-            _airEmissionsFormPage.SaveAndClose();
 
-            _airEmissionsEnvironmentPage.SelectNewRecordButton();
-            _airEmissionsFormPage.SetDescriptionText(record2DescriptionText);
-            _airEmissionsFormPage.SetSampleDate("Aug", 3);
-            _airEmissionsFormPage.SaveAndClose();
+            try
+            {
+                #region Arrange
+                loginPage.Login("LukeJ", "f8*GTZ");
+                homePage.SelectEnvironmentModule("Air Emissions");
+                #endregion
 
-            _airEmissionsEnvironmentPage.SelectManageRecordButton(record1DescriptionText);
-            _airEmissionsEnvironmentPage.SelectDeleteButton();
-            _airEmissionsEnvironmentPage.ClickConfirm();
+                #region Act
+                airEmissionsEnvironmentPage.SelectNewRecordButton();
+                airEmissionsFormPage.CreateDefaultAirEmissionsRecord(record1DescriptionText, "August", 5);
+
+                airEmissionsEnvironmentPage.SelectNewRecordButton();
+                airEmissionsFormPage.CreateDefaultAirEmissionsRecord(record2DescriptionText, "August", 5);
+
+                airEmissionsEnvironmentPage.DeleteRecord(record1DescriptionText);
+                #endregion
+
+                #region Assert
+                Console.WriteLine($"Verifying that the Air Emissions record containing the Description text of {record1DescriptionText} is deleted");
+                Assert.IsTrue(airEmissionsEnvironmentPage.RecordDeleted(record1DescriptionText), $"{record1DescriptionText} is unexpectedly still listed");
+                #endregion
+            }
+            finally
+            {
+                #region Cleanup
+                Console.WriteLine("Deleting any Air Emissions records that may have been left over from the test");
+                if (!airEmissionsEnvironmentPage.RecordDeleted(record1DescriptionText))
+                    airEmissionsEnvironmentPage.DeleteRecord(record1DescriptionText);
+
+                if (!airEmissionsEnvironmentPage.RecordDeleted(record2DescriptionText))
+                    airEmissionsEnvironmentPage.DeleteRecord(record2DescriptionText);
+                #endregion
+            }
         }
     }
 }

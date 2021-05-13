@@ -1,19 +1,20 @@
 ﻿using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
-using TechnicalTestSHE.PageObjects;
+using System;
 
 namespace TechnicalTestSHE.TestManagement
 {
     [TestFixture]
     public class TestBaseClass
     {
-        public static IWebDriver Driver;
+        public IWebDriver Driver;
         private readonly string _baseUrl = "https://stirling.she-development.net/automation";
 
         [SetUp]
         public void SetUp()
         {
+            Console.WriteLine("Initialising Chrome Driver");
             Driver = new ChromeDriver();
             Driver.Manage().Window.Maximize();
             Driver.Navigate().GoToUrl(_baseUrl);
@@ -22,6 +23,7 @@ namespace TechnicalTestSHE.TestManagement
         [TearDown]
         public void TearDown()
         {
+            Console.WriteLine("Killing the WebDriver");
             Driver.Quit();
         }
     }

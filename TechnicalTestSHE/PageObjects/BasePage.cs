@@ -1,9 +1,7 @@
 ﻿using System;
 using OpenQA.Selenium;
-using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Interactions;
 using OpenQA.Selenium.Support.UI;
-using TechnicalTestSHE.TestManagement;
 using ExpectedConditions = SeleniumExtras.WaitHelpers.ExpectedConditions;
 
 namespace TechnicalTestSHE.PageObjects
@@ -17,35 +15,89 @@ namespace TechnicalTestSHE.PageObjects
             _driver = driver;
         }
 
-        protected void WaitUntilElementVisible(By by)
+        /// <summary>
+        /// Waits until an element is visible
+        /// </summary>
+        /// <param name="byLocator">The element to check</param>
+        protected void WaitUntilElementVisible(By byLocator)
         {
             var wait = new WebDriverWait(_driver, TimeSpan.FromSeconds(60));
-            wait.Until(ExpectedConditions.ElementToBeClickable(by));
+            wait.Until(ExpectedConditions.ElementToBeClickable(byLocator));
         }
 
-        protected IWebElement GetElement(By by)
+        /// <summary>
+        /// Gets an element from a By locator
+        /// </summary>
+        /// <param name="byLocator">By locator to find</param>
+        /// <returns>IWebElement of the element</returns>
+        protected IWebElement GetElement(By byLocator)
         {
-            WaitUntilElementVisible(by);
-            return _driver.FindElement(by);
+            WaitUntilElementVisible(byLocator);
+            return _driver.FindElement(byLocator);
         }
 
-        protected void Click(By by)
+        /// <summary>
+        /// Performs a click on an element
+        /// </summary>
+        /// <param name="byLocator">Element to click</param>
+        protected void Click(By byLocator)
         {
-            WaitUntilElementVisible(by);
-            _driver.FindElement(by).Click();
+            WaitUntilElementVisible(byLocator);
+            _driver.FindElement(byLocator).Click();
         }
 
-        protected void SendKeys(By by, string text)
+        /// <summary>
+        /// Enters text into the element text field
+        /// </summary>
+        /// <param name="byLocator">Element to enter text into</param>
+        /// <param name="text">Text to enter</param>
+        protected void SendKeys(By byLocator, string text)
         {
-            WaitUntilElementVisible(by);
-            _driver.FindElement(by).SendKeys(text);
+            WaitUntilElementVisible(byLocator);
+            _driver.FindElement(byLocator).SendKeys(text);
         }
 
-        protected void Hover(By by)
+        /// <summary>
+        /// Performs a hover over an element
+        /// </summary>
+        /// <param name="byLocator">Element to hover over</param>
+        protected void Hover(By byLocator)
         {
             Actions actions = new Actions(_driver);
-            IWebElement element = _driver.FindElement(by);
+            IWebElement element = _driver.FindElement(byLocator);
             actions.MoveToElement(element).Build().Perform();
+        }
+
+        /// <summary>
+        /// Waits until the requested element is not visible on the page
+        /// </summary>
+        /// <param name="bylocator">Element to check for visibility of</param>
+        /// <param name="timeout">Timeout to set for the wait</param>
+        /// <returns>True if element is not visible, otherwise false</returns>
+        protected bool WaitUntilElementNotVisible(By bylocator, int timeout = 20)
+        {
+            bool conditionMet = false;
+            try
+            {
+                WebDriverWait wait = new WebDriverWait(_driver, TimeSpan.FromSeconds(timeout));
+                wait.Until(ExpectedConditions.InvisibilityOfElementLocated(bylocator));
+                conditionMet = true;
+            }
+            catch (Exception e)
+            {
+                Logger("Exception caught in WaitUntilElementNotVisible: " + bylocator +", " + e.Message);
+                conditionMet = false;
+            }
+            return conditionMet;
+        }
+
+        /// <summary>
+        /// Adds logs when called, to be used against methods
+        /// </summary>
+        /// <param name="logMessage">Log message to enter</param>
+        public void Logger(string logMessage)
+        {
+            Console.WriteLine(logMessage);
         }
     }
 }

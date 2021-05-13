@@ -1,12 +1,4 @@
 ﻿using OpenQA.Selenium;
-using OpenQA.Selenium.Chrome;
-using OpenQA.Selenium.Support.PageObjects;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TechnicalTestSHE.TestManagement;
 
 namespace TechnicalTestSHE.PageObjects
 {
@@ -23,8 +15,11 @@ namespace TechnicalTestSHE.PageObjects
         /// <param name="password">Password to enter</param>
         public void Login(string username, string password)
         {
+            Logger($"Entering the username of {username}");
             SendKeys(Elements.username, username);
+            Logger($"Entering the password of {password}");
             SendKeys(Elements.password, password);
+            Logger("Selecting the login button");
             Click(Elements.loginBtn);
         }
 
