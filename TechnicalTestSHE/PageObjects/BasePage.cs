@@ -6,6 +6,9 @@ using ExpectedConditions = SeleniumExtras.WaitHelpers.ExpectedConditions;
 
 namespace TechnicalTestSHE.PageObjects
 {
+    /// <summary>
+    /// Base object class for all types of element interactions
+    /// </summary>
     public class BasePage
     {
         private readonly IWebDriver _driver;
@@ -19,10 +22,19 @@ namespace TechnicalTestSHE.PageObjects
         /// Waits until an element is visible
         /// </summary>
         /// <param name="byLocator">The element to check</param>
-        protected void WaitUntilElementVisible(By byLocator)
+        /// <param name="timeout">The timeout to wait</param>
+        protected void WaitUntilElementVisible(By byLocator, int timeout = 20)
         {
-            var wait = new WebDriverWait(_driver, TimeSpan.FromSeconds(60));
-            wait.Until(ExpectedConditions.ElementToBeClickable(byLocator));
+            try
+            {
+                var wait = new WebDriverWait(_driver, TimeSpan.FromSeconds(timeout));
+                wait.Until(ExpectedConditions.ElementToBeClickable(byLocator));
+            }
+            catch (Exception e)
+            {
+                Logger("Exception caught in WaitUntilElementVisible: " + byLocator + ", " + e.Message);
+            }
+
         }
 
         /// <summary>
@@ -69,23 +81,23 @@ namespace TechnicalTestSHE.PageObjects
         }
 
         /// <summary>
-        /// Waits until the requested element is not visible on the page
+        /// Checks if the requested element is not visible on the page
         /// </summary>
-        /// <param name="bylocator">Element to check for visibility of</param>
+        /// <param name="byLocator">Element to check for visibility of</param>
         /// <param name="timeout">Timeout to set for the wait</param>
         /// <returns>True if element is not visible, otherwise false</returns>
-        protected bool WaitUntilElementNotVisible(By bylocator, int timeout = 20)
+        protected bool ElementNotVisible(By byLocator, int timeout = 5)
         {
             bool conditionMet = false;
             try
             {
                 WebDriverWait wait = new WebDriverWait(_driver, TimeSpan.FromSeconds(timeout));
-                wait.Until(ExpectedConditions.InvisibilityOfElementLocated(bylocator));
+                wait.Until(ExpectedConditions.InvisibilityOfElementLocated(byLocator));
                 conditionMet = true;
             }
             catch (Exception e)
             {
-                Logger("Exception caught in WaitUntilElementNotVisible: " + bylocator +", " + e.Message);
+                Logger("Exception caught in WaitUntilElementNotVisible: " + byLocator +", " + e.Message);
                 conditionMet = false;
             }
             return conditionMet;

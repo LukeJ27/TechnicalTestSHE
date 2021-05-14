@@ -2,6 +2,9 @@
 
 namespace TechnicalTestSHE.PageObjects
 {
+    /// <summary>
+    /// Page Object for methods performed from the home page
+    /// </summary>
     public class HomePage : BasePage 
     {
         public HomePage(IWebDriver driver) : base(driver)

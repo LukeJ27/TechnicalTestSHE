@@ -2,6 +2,9 @@
 
 namespace TechnicalTestSHE.PageObjects
 {
+    /// <summary>
+    /// Page Object for methods performed for logging in and out of the application
+    /// </summary>
     public class LoginPage : BasePage 
     {
         public LoginPage(IWebDriver driver) : base(driver)
@@ -23,12 +26,35 @@ namespace TechnicalTestSHE.PageObjects
             Click(Elements.loginBtn);
         }
 
+        /// <summary>
+        /// Selects the user dropdown and selects an option from the dropdown menu
+        /// </summary>
+        /// <param name="userDropdownMenuOption">User option to select</param>
+        public void SelectFromUserDropdown(string userDropdownMenuOption)
+        {
+            Logger($"Select the User dropdown > {userDropdownMenuOption}");
+            Click(Elements.userDropdown);
+            Click(By.XPath($"//ul[@class='js-she-dropdown-menu']//*[contains(text(),'{userDropdownMenuOption}')]"));
+        }
+
+        /// <summary>
+        /// Logout from the application
+        /// </summary>
+        public void Logout()
+        {
+            Logger("Logout from the application");
+            SelectFromUserDropdown("Log Out");
+            WaitUntilElementVisible(Elements.loggedOutPage);
+        }
+
         public static class Elements
         {
             public static By
             username = By.Id("username"),
             password = By.Id("password"),
-            loginBtn = By.Id("login");
+            loginBtn = By.Id("login"),
+            userDropdown = By.Id("uservoice-activation"),
+            loggedOutPage = By.XPath("//div[@class='she-login-one-content']//*[contains(text(),'You are now logged out')]");
         }
     }
 }

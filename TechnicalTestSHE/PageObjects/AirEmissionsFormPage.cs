@@ -2,6 +2,9 @@
 
 namespace TechnicalTestSHE.PageObjects
 {
+    /// <summary>
+    /// Page Object for methods performed within an Air Emissions form
+    /// </summary>
     public class AirEmissionsFormPage : BasePage 
     {
         public AirEmissionsFormPage(IWebDriver driver) : base(driver)

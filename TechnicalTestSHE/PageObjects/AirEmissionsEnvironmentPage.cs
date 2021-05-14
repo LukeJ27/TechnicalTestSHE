@@ -2,6 +2,9 @@
 
 namespace TechnicalTestSHE.PageObjects
 {
+    /// <summary>
+    /// Page Object for methods performed from the Air Emissions Environment page
+    /// </summary>
     public class AirEmissionsEnvironmentPage : BasePage 
     {
         public AirEmissionsEnvironmentPage(IWebDriver driver) : base(driver)
@@ -46,6 +49,10 @@ namespace TechnicalTestSHE.PageObjects
             Click(Elements.confirmButton);
         }
 
+        /// <summary>
+        /// Deletes a record from the system via the Manage Records button
+        /// </summary>
+        /// <param name="descriptionText">The description text of the record to be deleted</param>
         public void DeleteRecord(string descriptionText)
         {
             SelectManageRecordButton(descriptionText);
@@ -62,18 +69,18 @@ namespace TechnicalTestSHE.PageObjects
         {
             WaitUntilElementVisible(Elements.newRecordBtn);
             Logger($"Checking if the record containing the Description text of {description} has been deleted");
-            return WaitUntilElementNotVisible(ManageRecordButton(description), 3);
+            return ElementNotVisible(ManageRecordButton(description), 3);
         }
 
         /// <summary>
         /// Element path for the Manage Record button of the chosen record
         /// </summary>
-        /// <param name="description">The description text for the record the Manage Records button element is associated to</param>
+        /// <param name="descriptionText">The description text for the record the Manage Records button element is associated to</param>
         /// <returns>The button element path</returns>
-        public By ManageRecordButton(string description)
+        public By ManageRecordButton(string descriptionText)
         {
-            Logger($"Getting the Manage Record button element path for record containing the Description of {description}");
-            return By.XPath($"//*[@title='{description}']/following::div[@class='btn-group']/button[@data-toggle='dropdown']");
+            Logger($"Getting the Manage Record button element path for record containing the Description of {descriptionText}");
+            return By.XPath($"//*[@title='{descriptionText}']/following::div[@class='btn-group']/button[@data-toggle='dropdown']");
         }
 
         public static class Elements

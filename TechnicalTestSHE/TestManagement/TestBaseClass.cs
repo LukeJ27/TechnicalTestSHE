@@ -5,6 +5,9 @@ using System;
 
 namespace TechnicalTestSHE.TestManagement
 {
+    /// <summary>
+    /// Test Base class to initiate WebDriver
+    /// </summary>
     [TestFixture]
     public class TestBaseClass
     {
