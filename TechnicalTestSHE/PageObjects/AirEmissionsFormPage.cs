@@ -46,7 +46,7 @@ namespace TechnicalTestSHE.PageObjects
         public void SampleDateDaySelector(int date)
         {
             Logger($"Select the date of {date}");
-            Click(By.XPath($"//td[@data-handler='selectDay']//a[contains(text(), '{date}')]"));
+            Click(SampleDateDay(date));
         }
 
         /// <summary>
@@ -59,7 +59,7 @@ namespace TechnicalTestSHE.PageObjects
             Logger($"Opening the Sample Date calendar, and selecting the month of {month} and the date of {date}");
             Click(Elements.calendarButton);
             SelectMonthDropdown();
-            Click(By.XPath($"//option[contains(text(), '{month.Substring(0, 3)}')]"));
+            Click(SampleDateMonth(month));
             SampleDateDaySelector(date);
         }
 
@@ -75,6 +75,28 @@ namespace TechnicalTestSHE.PageObjects
             SetDescriptionText(descriptionText);
             SetSampleDate(month, date);
             SaveAndClose();
+        }
+
+        /// <summary>
+        /// Element for the Sample Date month from the date picker
+        /// </summary>
+        /// <param name="month">The month to be selected</param>
+        /// <returns>The element for the requested Sample Date month</returns>
+        public By SampleDateMonth(string month)
+        {
+            Logger($"Getting the Sample Date month element for the chosen month of {month}");
+            return By.XPath($"//option[contains(text(), '{month.Substring(0, 3)}')]");
+        }
+
+        /// <summary>
+        /// Element for the Sample Date day selector from the date picker
+        /// </summary>
+        /// <param name="date">The date to be selected</param>
+        /// <returns>The element for the requested date</returns>
+        public By SampleDateDay(int date)
+        {
+            Logger($"Getting the Sample Date day element path for the chosen date of {date}");
+            return By.XPath($"//td[@data-handler='selectDay']//a[contains(text(), '{date}')]");
         }
 
         public static class Elements

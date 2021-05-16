@@ -38,17 +38,6 @@ namespace TechnicalTestSHE.PageObjects
         }
 
         /// <summary>
-        /// Gets an element from a By locator
-        /// </summary>
-        /// <param name="byLocator">By locator to find</param>
-        /// <returns>IWebElement of the element</returns>
-        protected IWebElement GetElement(By byLocator)
-        {
-            WaitUntilElementVisible(byLocator);
-            return _driver.FindElement(byLocator);
-        }
-
-        /// <summary>
         /// Performs a click on an element
         /// </summary>
         /// <param name="byLocator">Element to click</param>
