@@ -52,7 +52,7 @@ namespace TechnicalTestSHE.Tests
 
             #region Assert
             Console.WriteLine($"Verifying that the Air Emissions record containing the Description text of {record2DescriptionText} is deleted");
-            Assert.IsTrue(airEmissionsEnvironmentPage.RecordDeleted(record2DescriptionText), $"{record2DescriptionText} is unexpectedly still listed");
+            Assert.IsTrue(airEmissionsEnvironmentPage.RecordDeleted(record2DescriptionText), $"Air Emissions record with Description text {record2DescriptionText} is unexpectedly still listed");
             #endregion
         }
     }

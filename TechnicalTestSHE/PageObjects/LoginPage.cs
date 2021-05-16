@@ -34,7 +34,7 @@ namespace TechnicalTestSHE.PageObjects
         {
             Logger($"Select the User dropdown > {userDropdownMenuOption}");
             Click(Elements.userDropdown);
-            Click(By.XPath($"//ul[@class='js-she-dropdown-menu']//*[contains(text(),'{userDropdownMenuOption}')]"));
+            Click(By.LinkText($"{userDropdownMenuOption}"));
         }
 
         /// <summary>
@@ -53,7 +53,7 @@ namespace TechnicalTestSHE.PageObjects
             username = By.Id("username"),
             password = By.Id("password"),
             loginBtn = By.Id("login"),
-            userDropdown = By.Id("uservoice-activation"),
+            userDropdown = By.CssSelector(".nav-user-name"),
             loggedOutPage = By.XPath("//div[@class='she-login-one-content']//*[contains(text(),'You are now logged out')]");
         }
     }

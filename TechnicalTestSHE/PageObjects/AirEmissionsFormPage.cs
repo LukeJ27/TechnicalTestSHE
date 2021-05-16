@@ -36,7 +36,7 @@ namespace TechnicalTestSHE.PageObjects
         public void SelectMonthDropdown()
         {
             Logger("Selecting the Month dropdown");
-            Click(By.XPath("//select[@class='ui-datepicker-month']"));
+            Click(Elements.monthCalendarDropdown);
         }
 
         /// <summary>
@@ -52,7 +52,7 @@ namespace TechnicalTestSHE.PageObjects
         /// <summary>
         /// Setting the Sample Date field, selecting a month and date to populate the field with
         /// </summary>
-        /// <param name="month">The month to select (first 3 characters of the month name only)</param>
+        /// <param name="month">The month to select</param>
         /// <param name="date">The date of the month to select</param>
         public void SetSampleDate(string month, int date)
         {
@@ -67,7 +67,7 @@ namespace TechnicalTestSHE.PageObjects
         /// Creates a default Air Emissions record, populating the required field Sample Date, and the Description field
         /// </summary>
         /// <param name="descriptionText">The description text to enter</param>
-        /// <param name="month">The month to select from the Sample Date picker (first 3 characters of the month name only)</param>
+        /// <param name="month">The month to select from the Sample Date picker</param>
         /// <param name="date">The date of the month to select</param>
         public void CreateDefaultAirEmissionsRecord(string descriptionText, string month, int date)
         {
@@ -83,7 +83,8 @@ namespace TechnicalTestSHE.PageObjects
             descriptionField = By.Id("SheAirEmissions_Description"),
             calendarButton = By.CssSelector(".fa-calendar"),
             todaysDateButton = By.CssSelector(".ui-datepicker-current"),
-            saveAndCloseButton = By.XPath("//button[@value='Close']");
+            saveAndCloseButton = By.XPath("//button[@value='Close']"),
+            monthCalendarDropdown = By.CssSelector(".ui-datepicker-month");
         }
     }
 }

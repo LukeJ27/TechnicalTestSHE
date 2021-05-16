@@ -28,7 +28,7 @@ namespace TechnicalTestSHE.PageObjects
         {
             public static By
             modulesDropdown = By.LinkText("Modules"),
-            environment = By.XPath("//li[@data-areaname='Environment']");
+            environment = By.LinkText("Environment");
         }
     }
 }
