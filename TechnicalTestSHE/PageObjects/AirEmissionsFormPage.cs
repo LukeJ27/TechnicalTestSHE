@@ -57,6 +57,7 @@ namespace TechnicalTestSHE.PageObjects
         public void SetSampleDate(string month, int date)
         {
             Logger($"Opening the Sample Date calendar, and selecting the month of {month} and the date of {date}");
+            ScrollToElement(Elements.calendarButton);
             Click(Elements.calendarButton);
             SelectMonthDropdown();
             Click(SampleDateMonth(month));

@@ -48,6 +48,18 @@ namespace TechnicalTestSHE.PageObjects
         }
 
         /// <summary>
+        /// Scrolls to an element if not visible on the page
+        /// </summary>
+        /// <param name="byLocator">By locator of element to scroll to</param>
+        protected void ScrollToElement(By byLocator)
+        {
+            IWebElement element = _driver.FindElement(byLocator);
+            IJavaScriptExecutor jse = (IJavaScriptExecutor)_driver;
+            Logger("Scrolls the page to make the element visible");
+            jse.ExecuteScript("arguments[0].scrollIntoView()", element);
+        }
+
+        /// <summary>
         /// Enters text into the element text field
         /// </summary>
         /// <param name="byLocator">Element to enter text into</param>
